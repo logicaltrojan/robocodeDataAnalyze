@@ -19,8 +19,8 @@ import robocode.control.snapshot.IRobotSnapshot;
 public class Turnlog extends BattleAdaptor{
 	
 	
-	CSVwriter filelogger = new CSVwriter();
-
+	CSVwriter fileLogger = CSVwriter.getCSVwriter();
+	
 	
 	protected int loggCycle = 5;
 	/**
@@ -122,22 +122,9 @@ public class Turnlog extends BattleAdaptor{
 	@Override
 	public void onTurnEnded(TurnEndedEvent event) {
 		if (event.getTurnSnapshot().getTurn()%5 == 0) {
-			
-		for (IRobotSnapshot robot : event.getTurnSnapshot().getRobots()) {
-			if (isDumpingPositions) {
-				Logger.realOut.print(robot.getVeryShortName());
-				Logger.realOut.print(" X:");
-				Logger.realOut.print(robot.getX());
-				Logger.realOut.print(" Y:");
-				Logger.realOut.print(robot.getY());
-				Logger.realOut.print(" V:");
-				Logger.realOut.print(robot.getVelocity());
-				Logger.realOut.println();
-			}
-			if (isDumpingOutput) {
-				Logger.realOut.print(robot.getOutputStreamSnapshot());
-			}
+			fileLogger.writeTurnLogg(event);
 		}
+		
 	}
 
 	@Override
